@@ -133,12 +133,15 @@ class TempSensorReal(TempSensor):
         if config.max31856:
             log.info("init MAX31856")
             from max31856 import MAX31856
+            from Adafruit_GPIO import SPI
             software_spi = { 'cs': config.gpio_sensor_cs,
                              'clk': config.gpio_sensor_clock,
                              'do': config.gpio_sensor_data,
                              'di': config.gpio_sensor_di }
+            hardware_spi = SPI.SpiDev(0,0,max_speed_hz=500000)
             self.thermocouple = MAX31856(tc_type=config.thermocouple_type,
-                                         software_spi = software_spi,
+                                         #software_spi = software_spi,
+                                         hardware_spi = hardware_spi,
                                          units = config.temp_scale,
                                          ac_freq_50hz = config.ac_freq_50hz,
                                          )
